@@ -40,6 +40,8 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IProjectService, ProjectService>();
 builder.Services.AddScoped<IUploadService, UploadService>();
 builder.Services.AddScoped<IJobService, JobService>();
+builder.Services.Configure<InternalOptions>(builder.Configuration.GetSection("Internal"));
+builder.Services.AddScoped<IArtifactService, ArtifactService>();
 
 // Storage DI
 builder.Services.AddSingleton<IFileStorage, LocalFileStorage>();
