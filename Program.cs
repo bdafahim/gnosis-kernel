@@ -46,6 +46,14 @@ builder.Services.AddScoped<IArtifactService, ArtifactService>();
 // Storage DI
 builder.Services.AddSingleton<IFileStorage, LocalFileStorage>();
 
+builder.Services.AddCors(o =>
+{
+    o.AddPolicy("dev", p =>
+        p.WithOrigins("http://localhost:4200")
+            .AllowAnyHeader()
+            .AllowAnyMethod());
+});
+
 // JWT setup
 var auth = builder.Configuration.GetSection("Auth").Get<AuthOptions>()!;
 var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(auth.JwtKey));
@@ -73,6 +81,8 @@ app.UseSwagger();
 app.UseSwaggerUI();
 
 app.MapGet("/health", () => Results.Ok(new { ok = true }));
+
+app.UseCors("dev");
 
 app.UseAuthentication();
 app.UseAuthorization();
