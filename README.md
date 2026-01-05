@@ -2,7 +2,7 @@
 
 This repository contains the backend API for **Gnosis Kernel**, a code intelligence platform that indexes source code, extracts symbols and relationships, and exposes them through a structured API for search, graph visualization, and conversational analysis.
 
-The backend is implemented using **ASP.NET Core**, follows a **clean layered architecture**, and serves as the central orchestration layer between storage, indexing jobs, OpenAI integration, and the frontend application.
+The backend is implemented using **ASP.NET Core**, follows a **clean layered architecture**, and serves as the central orchestration layer between storage, indexing jobs, and the frontend application.
 
 ---
 
@@ -62,15 +62,12 @@ The backend is implemented using **ASP.NET Core**, follows a **clean layered arc
 │   ├── Options
 │   │   ├── AuthOptions.cs
 │   │   ├── InternalOptions.cs
-│   │   ├── OpenAiOptions.cs
 │   │   └── StorageOptions.cs
 │   ├── Services
 │   │   ├── ArtifactService.cs
 │   │   ├── AuthService.cs
 │   │   ├── ChatService.cs
-│   │   ├── IOpenAiClient.cs
 │   │   ├── JobService.cs
-│   │   ├── OpenAiClient.cs
 │   │   ├── ProjectService.cs
 │   │   ├── SearchService.cs
 │   │   └── UploadService.cs
@@ -124,7 +121,6 @@ Controllers → Services → Data / External Clients
 - **Services contain business logic**
 - **Contracts define API boundaries**
 - **Data layer is isolated** via `AppDbContext`
-- **External integrations** (OpenAI, storage) are abstracted behind interfaces
 
 ---
 
@@ -181,9 +177,9 @@ Controllers → Services → Data / External Clients
 
 ---
 
-### Chat & AI Integration
+### Chat
 
-**Location:** `ChatController`, `ChatService`, `OpenAiClient`
+**Location:** `ChatController`, `ChatService`
 
 **Responsibilities:**
 
@@ -191,18 +187,6 @@ Controllers → Services → Data / External Clients
 - Context assembly from search results
 - Prompt construction
 - Streaming or batched AI responses
-
-OpenAI is abstracted via:
-
-```csharp
-IOpenAiClient
-```
-
-This allows:
-
-- Easy mocking
-- Future provider replacement
-- Centralized prompt and token handling
 
 ---
 
@@ -275,7 +259,6 @@ Configuration is managed via:
 |--------|-------------|
 | `AuthOptions` | JWT secrets, token lifetime |
 | `InternalOptions` | Internal API keys |
-| `OpenAiOptions` | API keys, model names |
 | `StorageOptions` | File storage configuration |
 
 ---
