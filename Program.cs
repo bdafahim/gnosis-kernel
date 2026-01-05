@@ -75,6 +75,10 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 builder.Services.AddAuthorization();
 
+builder.Services.AddScoped<ISearchService, SearchService>();
+builder.Services.AddScoped<IChatService, ChatService>();
+
+
 var app = builder.Build();
 
 app.UseSwagger();
